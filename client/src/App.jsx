@@ -52,7 +52,16 @@ const App = () => {
 		telegram.MainButton.show();
 	};
 
-	
+	const onSendData = useCallback(() => {
+		telegram.sendData(JSON.stringify(cartItems));
+	}, [cartItems])
+
+	useEffect(() => {
+		telegram.onEvent('mainButtonClicked', onSendData);
+		
+		return () => telegram.offEvent('mainButtonClicked', onSendData)
+	}, [onSendData])
+
 	return (
 		<>
 			<h1 className='heading'>Sammi kurslar</h1>
